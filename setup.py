@@ -2,19 +2,22 @@ from setuptools import setup, find_packages
 
 setup(
     name="wincontd",
-    version="0.1.0",
+    version="2.2.0",
     packages=find_packages(),
+    package_data={
+        "wincontd": ["resources/*.zip"],
+    },
+    include_package_data=True,
     entry_points={
         "console_scripts": [
-            "wincontd=winc.cli:cli"
+            "wincontd=wincontd.cli:cli"
         ]
     },
     install_requires=[
-        "requests",
-        "click",
+        "click>=8.0.0",
     ],
-    author="Rohan Rustagi",
-    description="Lightweight Windows Container CLI compatible with Docker commands",
+    author="Your Name",
+    description="Lightweight Windows Container Runtime CLI",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/RohanRusta21/wincontd",

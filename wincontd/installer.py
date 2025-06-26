@@ -1,38 +1,38 @@
+# wincontd/installer.py
+
 import os
-import subprocess
-import requests
-import zipfile
 from pathlib import Path
-
-WINDIR = os.getenv("SystemRoot")
-INSTALL_DIR = Path(WINDIR) / "System32" / "winc"
-CONTAINERD_URL = "https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-windows-amd64.zip "
-NERDCTL_URL = "https://github.com/containerd/nerdctl/releases/download/v1.0.0/nerdctl-full-1.0.0-windows-amd64.zip "
-
-def download_file(url, filename):
-    with requests.get(url, stream=True) as r:
-        with open(filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
+from zipfile import ZipFile
+from importlib.resources import files
+import wincontd.resources
 
 def extract_zip(zip_path, extract_to):
-    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-        zip_ref.extractall(extract_to)
+    print(f"[+] Extracting {zip_path} to {extract_to}")
+    try:
+        with ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(extract_to)
+    except Exception as e:
+        raise RuntimeError(f"Failed to extract {zip_path}: {e}")
 
 def install_dependencies():
+    BIN_DIR = Path(os.getenv("SystemRoot")) / "System32" / "wincontd"
+    print(f"[+] Installing dependencies to {BIN_DIR}")
+
+    if not BIN_DIR.exists():
+        BIN_DIR.mkdir(parents=True)
+
+    containerd_zip = str(files(wincontd.resources).joinpath("containerd.zip"))
+    nerdctl_zip = str(files(wincontd.resources).joinpath("nerdctl.zip"))
+
     print("[+] Installing containerd...")
-    download_file(CONTAINERD_URL, "containerd.zip")
-    extract_zip("containerd.zip", INSTALL_DIR)
-    os.remove("containerd.zip")
+    extract_zip(containerd_zip, BIN_DIR)
 
     print("[+] Installing nerdctl...")
-    download_file(NERDCTL_URL, "nerdctl.zip")
-    extract_zip("nerdctl.zip", INSTALL_DIR)
-    os.remove("nerdctl.zip")
+    extract_zip(nerdctl_zip, BIN_DIR)
 
-    print("[+] Creating docker shim...")
-    docker_shim = INSTALL_DIR / "docker.bat"
+    # Create docker.bat shim
+    docker_shim = BIN_DIR / "docker.bat"
     with open(docker_shim, "w") as f:
         f.write('@echo off\nnerdctl %*')
 
-    print(f"[+] Add {INSTALL_DIR} to PATH")
+    print(f"[+] Add {BIN_DIR} to PATH for Docker compatibility")

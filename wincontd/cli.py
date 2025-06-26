@@ -1,11 +1,13 @@
+# wincontd/cli.py
+
 import click
-from winc.installer import install_dependencies
-from winc.service import start_containerd, stop_containerd, check_status
-from winc.utils import activate_docker_env
+from wincontd.installer import install_dependencies
+from wincontd.service import start_containerd, stop_containerd, check_status
+from wincontd.utils import activate_docker_env
 
 @click.group()
 def cli():
-    """winc: Lightweight Windows Container Runtime CLI"""
+    """wincontd: Lightweight Windows Container Runtime CLI"""
     pass
 
 @cli.command()
