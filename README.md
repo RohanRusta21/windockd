@@ -1,4 +1,4 @@
-# wincontd – Lightweight Windows Container CLI
+# windockd – Lightweight Windows Container CLI
 
 A lightweight alternative to Docker Desktop for Windows. No WSL2 required.
 
@@ -13,7 +13,7 @@ A lightweight alternative to Docker Desktop for Windows. No WSL2 required.
 
 ```powershell
 pip install wincontd
-wincontd install
-wincontd start
-wincontd activate
+windockd install
+windockd start
+windockd activate
 docker run mcr.microsoft.com/windows/nanoserver:ltsc2022 echo "Hello from Windows container!"
