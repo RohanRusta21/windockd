@@ -1,16 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="wincontd",
-    version="2.2.0",
+    name="windockd",
+    version="1.0.0",
     packages=find_packages(),
     package_data={
-        "wincontd": ["resources/*.zip"],
+        "windockd": ["resources/*.zip"],
     },
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "wincontd=wincontd.cli:cli"
+            "windockd=windockd.cli:cli"
         ]
     },
     install_requires=[
@@ -20,7 +20,7 @@ setup(
     description="Lightweight Windows Container Runtime CLI",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/RohanRusta21/wincontd",
+    url="https://github.com/RohanRusta21/windockd",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
