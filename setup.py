@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="windockd",
-    version="1.1.1",
+    version="1.1.4",
     packages=find_packages(),
     package_data={
-        "windockd": ["resources/*.zip"],
+        "windockd": ["resources/*.zip", "resources/*.py", "resources/*.exe"],
     },
     include_package_data=True,
     entry_points={
